@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Número de Teléfono</title>
+    <!-- Incluir la biblioteca de libphonenumber -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.47/libphonenumber-js.min.js"></script>
+</head>
+<body>
+    <h1>Verificación de Número de Teléfono</h1>
+    <form id="phoneForm">
+        <label for="phoneNumber">Número de Teléfono:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required>
+        <button type="submit">Verificar</button>
+    </form>
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('phoneForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const resultElement = document.getElementById('result');
+
+            try {
+                const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+                const number = phoneUtil.parseAndKeepRawInput(phoneNumber, 'AR'); // Cambia 'US' por tu región
+
+                const isValid = phoneUtil.isValidNumber(number);
+
+                if (isValid) {
+                    const formattedNumber = phoneUtil.format(number, libphonenumber.PhoneNumberFormat.INTERNATIONAL);
+                    resultElement.textContent = `El número es válido. Número formateado: ${formattedNumber}`;
+                } else {
+                    resultElement.textContent = 'El número no es válido.';
+                }
+            } catch (error) {
+                resultElement.textContent = `Número de teléfono no válido: ${error.toString()}`;
+            }
+        });
+    </script>
+</body>
+</html>

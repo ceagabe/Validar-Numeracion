@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.53/libphonenumber-js.min.js"></script>
+<script>
+  // Espera a que el script cargue
+  window.onload = function () {
+    const phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
+    const number = phoneUtil.parse('3464300228', 'AR');
+
+    console.log(phoneUtil.isValidNumber(number)); // true
+    console.log(phoneUtil.format(number, i18n.phonenumbers.PhoneNumberFormat.INTERNATIONAL)); // +1 415-555-2671
+  };
+</script>
+
+    
+</body>
+</html>

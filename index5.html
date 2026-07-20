@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate Phone Number List</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.53/libphonenumber-js.min.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <h1>Validate a List of Phone Numbers</h1>
+
+    <form id="phoneListForm">
+        <label for="phoneNumbers">Enter phone numbers (comma separated):</label>
+        <textarea id="phoneNumbers" name="phoneNumbers" rows="5" cols="30"></textarea>
+        <br>
+        <button type="submit">Validate</button>
+    </form>
+
+    <div id="results"></div>
+</body>
+</html>
