@@ -1,40 +1,67 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificación de Número de Teléfono</title>
-    <script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.9.47/bundle/libphonenumber-js.min.js"></script>
+    <title>Phone Number Validation</title>
+    
+    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/google-libphonenumber/3.2.38/libphonenumber.min.js"></script> -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/google-libphonenumber/3.2.40/libphonenumber.min.js"></script> -->
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/google-libphonenumber/libphonenumber.min.js"></script>-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/google-libphonenumber"></script>
+
+    
+    
 </head>
 <body>
-    <h1>Verificación de Número de Teléfono</h1>
-    <form id="phoneForm">
-        <label for="phoneNumber">Número de Teléfono:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" required>
-        <button type="submit">Verificar</button>
+    <h1 onclick="alert">Phone Number Validation</h1>
+    <form id="phone-form">
+        <label for="phone-numbers">Enter phone numbers (one per line):</label><br>
+        <textarea id="phone-numbers" name="phone-numbers" rows="10" cols="30" placeholder="1151610644
+                                                                                           0111551610644
+                                                                                           005401151610644" required></textarea><br>
+        <button type="submit">Validate</button>
     </form>
-    <p id="result"></p>
+    <div id="results"></div>
 
     <script>
-        document.getElementById('phoneForm').addEventListener('submit', function(event) {
+        document.getElementById('phone-form').addEventListener('submit', function(event) {
             event.preventDefault();
+            
+            const phoneNumbersInput = document.getElementById('phone-numbers').value;
+            const phoneNumbers = phoneNumbersInput.split('\n');
+            const resultsDiv = document.getElementById('results');
+            const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
-            const phoneNumber = document.getElementById('phoneNumber').value;
-            const resultElement = document.getElementById('result');
+            resultsDiv.innerHTML = ''; // Clear previous results
 
-            try {
-                // Usando libphonenumber-js para analizar y verificar el número
-                const parsedNumber = libphonenumber.parsePhoneNumber(phoneNumber, 'AR'); // Cambia 'US' por tu región
-
-                if (parsedNumber.isValid()) {
-                    resultElement.textContent = `El número es válido. Número formateado: ${parsedNumber.formatInternational()}`;
-                } else {
-                    resultElement.textContent = 'El número no es válido.';
+            phoneNumbers.forEach(number => {
+                number = number.trim(); // Remove any extra whitespace
+                if (number) {
+                    try {
+                        const phoneNumber = phoneUtil.parse(number, 'AR'); // Cambia 'AR' si es necesario
+                        let result = `<p><strong>${number}:</strong> `;
+                        if (phoneUtil.isValidNumber(phoneNumber)) {
+                            const formattedNumber = phoneUtil.format(phoneNumber, libphonenumber.PhoneNumberFormat.INTERNATIONAL);
+                            result += `Number is valid. Formatted number: ${formattedNumber}.`;
+                        } else {
+                            result += 'Number is invalid.';
+                        }
+                        result += '</p>';
+                        resultsDiv.innerHTML += result;
+                    } catch (e) {
+                        resultsDiv.innerHTML += `<p><strong>${number}:</strong> Error parsing number.</p>`;
+                    }
                 }
-            } catch (error) {
-                resultElement.textContent = `Número de teléfono no válido: ${error.message}`;
-            }
+            });
         });
+    </script>
+
+      
+    <script>
+        alert("Bienvenidos, copiar la lista de numeracion a validar en el recuadro")
     </script>
 </body>
 </html>
